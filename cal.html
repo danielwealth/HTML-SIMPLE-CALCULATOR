@@ -1,0 +1,100 @@
+<!Doctype html>
+    <html lang="en">
+    <head>
+    <meta name="title" content="Landing page">
+    <meta charset="utf-8">
+    <meta name="description" content="landing page">
+    <meta name="Viewport" content="width=device-width, initial scale"=1.0>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="cal.css">
+    <script type="text/javascript" src="cal.js"></script>
+    </head>
+    <body>
+    <h1 style="color: aqua;">Calculator</h1>
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+        <div>
+            <button id="clear">C</button>
+            <button id="backspace">&lt;</button>
+            <button id="divide">/</button>
+            <button id="seven">7</button>
+            <button id="eight">8</button>
+            <button id="nine">9</button>
+            <button id="multiply">*</button>
+            <button id="four">4</button>
+            <button id="five">5</button>
+            <button id="six">6</button>
+            <button id="subtract">-</button>
+            <button id="one">1</button>
+            <button id="two">2</button>
+            <button id="three">3</button>
+            <button id="add">+</button>
+            <button id="zero">0</button>
+            <button id="decimal">.</button>
+            <button id="equals">=</button>
+        </div>
+    </div>
+
+    
+</body>
+<script>
+    let display = document.getElementById('display');
+    let clearButton = document.getElementById('clear');
+    let backspaceButton = document.getElementById('backspace');
+    let equalsButton = document.getElementById('equals');
+
+    let currentNumber = '';
+    let previousNumber = '';
+    let operator = '';
+
+    clearButton.addEventListener('click', clearDisplay);
+    backspaceButton.addEventListener('click', backspace);
+    equalsButton.addEventListener('click', calculateResult);
+
+    document.querySelectorAll('button:not(#clear):not(#backspace):not(#equals)').forEach(button => {
+        button.addEventListener('click', () => {
+            if (button.textContent === '+' || button.textContent === '-' || button.textContent === '*' || button.textContent === '/') {
+                operator = button.textContent;
+                previousNumber = currentNumber;
+                currentNumber = '';
+            } else {
+                currentNumber += button.textContent;
+            }
+            updateDisplay();
+        });
+    });
+
+    function clearDisplay() {
+        currentNumber = '';
+        previousNumber = '';
+        operator = '';
+        updateDisplay();
+    }
+
+    function backspace() {
+        currentNumber = currentNumber.slice(0, -1);
+        updateDisplay();
+    }
+
+    function calculateResult() {
+        let result;
+
+        if (operator === '+') {
+            result = parseFloat(previousNumber) + parseFloat(currentNumber);
+        } else if (operator === '-') {
+            result = parseFloat(previousNumber) - parseFloat(currentNumber);
+        } else if (operator === '*') {
+            result = parseFloat(previousNumber) * parseFloat(currentNumber);
+        } else if (operator === '/') {
+            result = parseFloat(previousNumber) / parseFloat(currentNumber);
+        }
+
+        currentNumber = result.toString();
+        updateDisplay();
+    }
+
+    function updateDisplay() {
+        display.value = currentNumber;
+    }
+</script>
+</html>
